@@ -6,7 +6,6 @@
 using namespace std;
 
 int tot;
-int len;
 int farth;
 string ch;
 int theme;
@@ -17,55 +16,61 @@ void pbStart(int lent, int fart, string opt, int thm)
 	farth = fart;
 	ch = opt;
 	theme = thm;
-	cout << "\033[?25l";
-    len = depth() - farth * 2 - 2;
-    cout << "\033[1;" << farth << "H" << "|";
-    cout << "\033[1;" << farth + len + 1 << "H" << " |";
+	hideCursor();
+    int len = getWidth() - farth * 2 - 2; // 局部变量
+    gotoXY(farth, 1);
+    cout << "|";
+    gotoXY(farth+len+1, 1);
+    cout << " |";
     if (theme == 3 || theme == 4 || theme == 5) {
-        cout << "\033[3;" << len / 2 + farth - 5 << "H" << "Loading...";
+        gotoXY(len/2+farth-5, 3);
+        cout << "Loading...";
     }
 }
 
 void pbAdd (double p)
 {
+    int len = getWidth() - farth * 2 - 2; // 局部变量
     switch (theme)
 	{
 		case 0:
-            cout << "\033[1;" << int (1.0 * p / tot * len+ 1 + farth) << "H" << ch;
-            cout << "\033[2;" << len / 2 + farth - 4 << "H" << setw(7) << fixed << setprecision(3) << 1.0 * p / tot * 100 << '%';
+        case 3:
+            gotoXY(int (1.0 * p / tot * len+ 1 + farth), 1);
+            cout << ch;
+            gotoXY(len / 2 + farth - 4, 2);
+            cout << setw(7) << fixed << setprecision(3) << 1.0 * p / tot * 100 << '%';
             break;
         case 1:
-            if (p < len / 2 - 4) cout << "\033[1;" << int (1.0 * p / tot * len+ 1 + farth) << "H" << ch;
-            else if (p > len / 2 + 4) cout << "\033[1;" << int (1.0 * p / tot * len+ 1 + farth) << "H" << ch;
-            cout << "\033[1;" << len / 2 + farth - 4 << "H" << setw(7) << fixed << setprecision(3) << 1.0 * p / tot * 100 << '%';
+        case 4:
+            if (p /tot * len < len / 2 - 4 || p /tot * len > len / 2 + 4)
+            {
+                gotoXY(int (1.0 * p / tot * len+ 1 + farth), 1);
+                cout << ch;
+            }
+            gotoXY(len / 2 + farth - 4, 1);
+            cout << setw(7) << fixed << setprecision(3) << 1.0 * p / tot * 100 << '%';
             break;
         case 2:
-            if (p <= len - 8) cout << "\033[1;" << int (1.0 * p / tot * len+ 1 + farth) << "H" << ch;
-            else cout << "\033[1;" << len - 8 + farth + 2 << "H";
-            cout << setw(7) << fixed << setprecision(3) << 1.0 * p / tot * 100 << '%';
-        case 3:
-            cout << "\033[1;" << int (1.0 * p / tot * len+ 1 + farth) << "H" << ch;
-            cout << "\033[2;" << len / 2 + farth - 4 << "H" << setw(7) << fixed << setprecision(3) << 1.0 * p / tot * 100 << '%';
-            break;
-        case 4:
-            if (p < len / 2 - 4) cout << "\033[1;" << int (1.0 * p / tot * len+ 1 + farth) << "H" << ch;
-            else if (p > len / 2 + 4) cout << "\033[1;" << int (1.0 * p / tot * len+ 1 + farth) << "H" << ch;
-            cout << "\033[1;" << len / 2 + farth - 4 << "H" << setw(7) << fixed << setprecision(3) << 1.0 * p / tot * 100 << '%';
-            break;
         case 5:
-            if (p <= len - 8) cout << "\033[1;" << int (1.0 * p / tot * len+ 1 + farth) << "H" << ch;
-            else cout << "\033[1;" << len - 8 + farth + 2 << "H";
+            if (p /tot * len <= len - 8)
+            {
+                gotoXY(int (1.0 * p / tot * len+ 1 + farth), 1);
+                cout << ch;
+            }
+            else gotoXY(len - 8 + farth + 2, 1);
             cout << setw(7) << fixed << setprecision(3) << 1.0 * p / tot * 100 << '%';
+            break;
 	}
 }
 
 void pbEnd()
 {
+    int len = getWidth() - farth * 2 - 2; // 局部变量
+    gotoXY(len / 2 + farth - 4, 2);
+	cout << setw(7) << fixed << setprecision(3) << 1.0 * 100 << '%';
 	tot = 0;
 	farth = 0;
 	ch = "\0";
 	theme = 0;
-	len = 0;
 }
 #endif // PROBAR_HPP
-
