@@ -1,13 +1,23 @@
+# `Release 1.3.2_B202408051105`更新说明：
++ 添加Windows 7兼容性支持
++ 修复逻辑错误
++ 优化代码结构
++ 优化进度条显示效果
+- 停止使用ANSI转移序列，改用Windows API
+  
+# `Re1.3.1`以前的版本未上传至GitHub，请联系作者获取旧版本。
+## 邮箱：xyx115@hotmail.com
+
 # 使用说明
-**注意，该库仅适用于Windows10+！！**  
+**~~注意，该库仅适用于Windows10+！！~~（已支持Windows 7）**  
 如果输出有误，请尝试更改注册表：
 导航到```计算机\HKEY_CURRENT_USER\Console```，创建一个值，名为```VirtualTerminalLevel```，类型为```REG_DWORD```，值设置为```1```。
-- 库中的simuprobar.hpp用于模拟一个进度条，可以用在命令行程序的输出中。（它不能真的显示进度，只能显示进度条的样式）用法如下：
+- 库中的`simuprobar.hpp`的`simu_probar()`用于模拟一个进度条，可以用在命令行程序的输出中。（它不能真的显示进度，只能显示进度条的样式）用法如下：
 ```cpp
 void simu_probar(string,int,int,int);
 ```
 ```cpp
-#include "simuprobar.h"
+#include "simuprobar.hpp"
 using namespace std;
 
 int main() {
@@ -27,14 +37,14 @@ int main() {
 '                                              Loading...                                            '  
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ```
-- 库中的probar用于实现一个进度条，可以用在命令行程序的输出中。（它可以真的显示进度）用法如下：
+- 库中的`probar.hpp`的`pbStart()`、`pbAdd()`、`pbEnd()`用于实现一个进度条，可以用在命令行程序的输出中。（它可以真的显示进度）用法如下：
 ```cpp
 void pbStart(string,int,int,int);
 void pbAdd(int);
 void pbEnd();
 ```
 ```cpp
-#include "probar.h"
+#include "probar.hpp"
 using namespace std;
 
 int main() {
