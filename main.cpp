@@ -1,16 +1,10 @@
-#include "simuprobar.hpp"
-#include "probar.hpp"
+#include "include/simuprobar.hpp"
+#include "include/probar.hpp"
 using namespace std;
-int a[10000];
+int a[1000000];
 int main() {
-	pbStart(10000,8,"¨€",LFLD);
-    for(int i=0;i<10000;i++)
-    {
-    	a[i]=0;
-    	pbAdd(i);
-	}
-	pbEnd();
-	//A progress bar for initialize an int[10000]
+	simu_probar("#",100,8,3);
+	//A progress bar for initialize an int[100000]
 	return 0;
 }
 
